@@ -50,6 +50,8 @@ class ItemDetailFragment : Fragment() {
             binding.itemName.text = item.itemName
             binding.itemPrice.text = item.getFormattedPrice()
             binding.itemCount.text = item.quantityInStock.toString()
+            sellItem.isEnabled = viewModel.isStockAvailable(item)
+            sellItem.setOnClickListener { viewModel.sellItem(item) }
         }
     }
 
@@ -65,7 +67,7 @@ class ItemDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
-        viewModel.retrieveItem(id).observe(this.viewLifecycleOwner){ selectedITem ->
+        viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedITem ->
             item = selectedITem
             bind(item)
         }
